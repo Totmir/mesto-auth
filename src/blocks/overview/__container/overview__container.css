@@ -1,0 +1,10 @@
+.overview__container {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+}
+@media (max-width: 1000px) {
+  .overview__container {
+    max-width: 80%;
+  }
+}

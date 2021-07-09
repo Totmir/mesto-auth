@@ -1,0 +1,16 @@
+.card__inner {
+  position: relative;
+
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 25px 15px 30px 20px;
+
+  color: #000000;
+
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 29px;
+}

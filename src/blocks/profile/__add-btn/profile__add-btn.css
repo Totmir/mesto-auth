@@ -1,0 +1,19 @@
+.profile__add-btn {
+  position: relative;
+  min-width: 150px;
+  min-height: 50px;
+  cursor: pointer;
+  border: 2px solid white;
+  border-radius: 2px;
+  background-color: transparent;
+  background: center no-repeat url(../../../images/profile/profile__add-btn.svg);
+}
+.profile__add-btn:hover {
+  opacity: 0.6;
+}
+@media (max-width: 750px) {
+  .profile__add-btn {
+    align-self: stretch;
+    background: center/15px no-repeat url(../../../images/profile/profile__add-btn.svg);
+  }
+}

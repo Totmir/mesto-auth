@@ -1,0 +1,16 @@
+.overview__caption {
+  margin-top: 10px;
+  color: white;
+  font-size: 12px;
+  line-height: 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 816px;
+}
+
+@media (max-width: 450px) {
+  .overview__caption {
+    max-width: 100%;
+  }
+}

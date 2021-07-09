@@ -1,0 +1,7 @@
+.popup__input-wrapper {
+  position: relative;
+}
+
+.popup__input-wrapper:nth-child(2) {
+  margin-top: 30px;
+}

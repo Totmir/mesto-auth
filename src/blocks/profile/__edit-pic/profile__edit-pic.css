@@ -1,0 +1,12 @@
+.profile__edit-pic {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+@media (max-width: 670px) {
+  .profile__edit-pic {
+    width: 7px;
+    height: 7px;
+    transform: translateY(-40%);
+  }
+}

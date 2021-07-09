@@ -1,0 +1,16 @@
+.overview__pic {
+  max-width: 816px;
+  max-height: 540px;
+}
+
+@media (max-width: 1000px) {
+  .overview__pic {
+    max-width: 100%;
+  }
+}
+@media (max-width: 450px) {
+  .overview__pic {
+    max-width: 240px;
+    max-height: 299px;
+  }
+}

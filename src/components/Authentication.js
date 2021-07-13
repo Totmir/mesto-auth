@@ -1,5 +1,3 @@
-import closeBtnImage from '../images/popup/close-btn.svg'
-
 export default function Authentication(props) {
   return (
     <div className='authentication appearance'>

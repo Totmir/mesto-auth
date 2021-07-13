@@ -10,14 +10,18 @@ import EditProfilePopup from './EditProfilePopup'
 import EditAvatarPopup from './EditAvatarPopup'
 import AddPlacePopup from './AddPlacePopup'
 import Login from './Login'
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import Registration from './Registration'
 
 const initialPopupState = { isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false, isOverviewPopupOpen: false }
-
 function App() {
   const [popupState, setPopupState] = useState(initialPopupState)
   const [selectedCard, setSelectedCard] = useState(null)
   const [userData, setUserData] = useState(null)
   const [cardsData, setCardsData] = useState([])
+  const [signedIn, setSignInState] = useState(null)
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [isLoggining, setLoggining] = useState(true)
 
   useEffect(() => {
     Promise.all([api.getUserData(), api.getCards()])
@@ -98,31 +102,35 @@ function App() {
   return (
     <CurrentUserContext.Provider value={userData}>
       <div>
-        <Header />
-        {/* <Main
-          updCardsData={newCardsData => {
-            setCardsData(newCardsData)
-          }}
-          handleCardLike={card => handleCardLike(card)}
-          handleCardDelete={card => handleCardDelete(card)}
-          cardsData={cardsData}
-          onEditAvatar={() => {
-            setPopupState({ ...popupState, isEditAvatarPopupOpen: true })
-          }}
-          onEditProfile={() => {
-            setPopupState({ ...popupState, isEditProfilePopupOpen: true })
-          }}
-          onAddPlace={() => {
-            setPopupState({ ...popupState, isAddPlacePopupOpen: true })
-          }}
-          onOverviewPopup={() => {
-            setPopupState({ ...popupState, isOverviewPopupOpen: true })
-          }}
-          onCardClick={handleCardClick}
-        /> */}
-        <Login />
-        <Footer />
+        <Header loggedIn={loggedIn} isLoggining={isLoggining} setLoggining={setLoggining} />
+        {/* {checkSigningIn()} */}
+        {loggedIn && (
+          <Main
+            updCardsData={newCardsData => {
+              setCardsData(newCardsData)
+            }}
+            handleCardLike={card => handleCardLike(card)}
+            handleCardDelete={card => handleCardDelete(card)}
+            cardsData={cardsData}
+            onEditAvatar={() => {
+              setPopupState({ ...popupState, isEditAvatarPopupOpen: true })
+            }}
+            onEditProfile={() => {
+              setPopupState({ ...popupState, isEditProfilePopupOpen: true })
+            }}
+            onAddPlace={() => {
+              setPopupState({ ...popupState, isAddPlacePopupOpen: true })
+            }}
+            onOverviewPopup={() => {
+              setPopupState({ ...popupState, isOverviewPopupOpen: true })
+            }}
+            onCardClick={handleCardClick}
+          />
+        )}
+        {!loggedIn && isLoggining && <Login />}
+        {!loggedIn && !isLoggining && <Registration />}
         {/* <PopupWithForm title='Вы уверены?' name='delete-card' /> */}
+        {loggedIn && <Footer />}
         <EditAvatarPopup onUpdateAvatar={avatarUrl => handleUpdateAvatar(avatarUrl)} isOpen={popupState.isEditAvatarPopupOpen} onClose={closeAllPopups} />
         <EditProfilePopup
           onUpdateUser={newUserData => {
@@ -138,4 +146,4 @@ function App() {
   )
 }
 
-export default App
+export default withRouter(App)

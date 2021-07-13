@@ -1,0 +1,7 @@
+.authentication__input-wrapper {
+  position: relative;
+}
+
+.authentication__input-wrapper:nth-child(2) {
+  margin-top: 30px;
+}

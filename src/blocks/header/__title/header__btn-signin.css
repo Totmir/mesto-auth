@@ -1,0 +1,26 @@
+.header__btn-signin {
+  margin: 0;
+
+  color: white;
+  border: none;
+  background: transparent;
+
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 22px;
+}
+
+.header__btn-signin:hover {
+  cursor: pointer;
+
+  opacity: .6;
+}
+
+@media (max-width: 950px) {
+  .header__btn-signin {
+    margin-right: 31px;
+
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

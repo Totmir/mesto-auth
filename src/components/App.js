@@ -9,6 +9,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import EditProfilePopup from './EditProfilePopup'
 import EditAvatarPopup from './EditAvatarPopup'
 import AddPlacePopup from './AddPlacePopup'
+import Login from './Login'
 
 const initialPopupState = { isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false, isOverviewPopupOpen: false }
 
@@ -17,7 +18,6 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null)
   const [userData, setUserData] = useState(null)
   const [cardsData, setCardsData] = useState([])
-  // const currentUser = React.useContext(CurrentUserContext)
 
   useEffect(() => {
     Promise.all([api.getUserData(), api.getCards()])
@@ -99,7 +99,7 @@ function App() {
     <CurrentUserContext.Provider value={userData}>
       <div>
         <Header />
-        <Main
+        {/* <Main
           updCardsData={newCardsData => {
             setCardsData(newCardsData)
           }}
@@ -119,7 +119,8 @@ function App() {
             setPopupState({ ...popupState, isOverviewPopupOpen: true })
           }}
           onCardClick={handleCardClick}
-        />
+        /> */}
+        <Login />
         <Footer />
         {/* <PopupWithForm title='Вы уверены?' name='delete-card' /> */}
         <EditAvatarPopup onUpdateAvatar={avatarUrl => handleUpdateAvatar(avatarUrl)} isOpen={popupState.isEditAvatarPopupOpen} onClose={closeAllPopups} />

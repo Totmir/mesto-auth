@@ -1,0 +1,21 @@
+.authentication__submit-btn {
+  width: 100%;
+  margin-top: 216px;
+  padding: 15px 0;
+
+  cursor: pointer;
+
+  color: black;
+  border-radius: 2px;
+  background-color: white;
+}
+.authentication__submit-btn:hover {
+  opacity: .8;
+}
+
+@media (max-width: 750px) {
+  .authentication__submit-btn {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

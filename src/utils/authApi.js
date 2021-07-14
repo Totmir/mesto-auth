@@ -13,6 +13,15 @@ class AuthApi {
       body: JSON.stringify(email, password)
     }).then(response => this._checkResponce(response))
   }
+  signInUser(email, password) {
+    return fetch(`${this._url}/signin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(email, password)
+    }).then(response => this._checkResponce(response))
+  }
   _checkResponce = response => {
     if (response.ok) {
       return response.json()

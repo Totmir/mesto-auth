@@ -10,7 +10,7 @@ import EditProfilePopup from './EditProfilePopup'
 import EditAvatarPopup from './EditAvatarPopup'
 import AddPlacePopup from './AddPlacePopup'
 import Login from './Login'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
 import Registration from './Registration'
 import InfoTooltip from './InfoTooltip'
 
@@ -19,14 +19,26 @@ const initialPopupState = { isEditAvatarPopupOpen: false, isEditProfilePopupOpen
 function App(props) {
   // const [initialPopupState, setInitialPopupState] = useState({ isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false, isOverviewPopupOpen: false, isInfoTooltipPopupOpen: false })
   const [popupState, setPopupState] = useState(initialPopupState)
-  const [popupRegisterData, setPopupRegisterData] = useState(null)
+  const [infoTooltipData, setInfoTooltipData] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
   const [userData, setUserData] = useState(null)
   const [cardsData, setCardsData] = useState([])
-  const [isLoggedIn, setLoggedIn] = useState(false)
-  const [isLoggining, setLoggining] = useState(true)
+  const [isSignedIn, setLoggedIn] = useState(false)
+  const [userEmail, setUserEmail] = useState(null)
+
+  let history = useHistory()
+
+  const handleTokenCheck = () => {
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt')
+    } else {
+      return
+    }
+  }
 
   useEffect(() => {
+    handleTokenCheck()
+    const jwt = localStorage.getItem('jwt')
     Promise.all([api.getUserData(), api.getCards()])
       .then(([userData, cardsData]) => {
         setUserData(userData)
@@ -105,16 +117,26 @@ function App(props) {
   return (
     <CurrentUserContext.Provider value={userData}>
       <div>
-        <Header isLoggedIn={isLoggedIn} isLoggining={isLoggining} setLoggining={setLoggining} />
+        <Header userEmail={userEmail} />
         <Switch>
           <Route path='/signin'>
-            <Login />
+            <Login
+              onSubmit={popupData => {
+                setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
+                setInfoTooltipData(popupData)
+              }}
+              setSignedIn={userEmail => {
+                setUserEmail(userEmail)
+                setLoggedIn(true)
+                history.push('/')
+              }}
+            />
           </Route>
           <Route path='/signup'>
             <Registration
               onSubmit={popupData => {
                 setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
-                setPopupRegisterData(popupData)
+                setInfoTooltipData(popupData)
               }}
             />
           </Route>
@@ -143,8 +165,8 @@ function App(props) {
           </Route>
         </Switch>
         {/* <PopupWithForm title='Вы уверены?' name='delete-card' /> */}
-        {isLoggedIn && <Footer />}
-        <InfoTooltip popupData={popupRegisterData} isOpen={popupState.isInfoTooltipPopupOpen} onClose={closeAllPopups} />
+        {isSignedIn && <Footer />}
+        <InfoTooltip popupData={infoTooltipData} isOpen={popupState.isInfoTooltipPopupOpen} onClose={closeAllPopups} />
         <EditAvatarPopup onUpdateAvatar={avatarUrl => handleUpdateAvatar(avatarUrl)} isOpen={popupState.isEditAvatarPopupOpen} onClose={closeAllPopups} />
         <EditProfilePopup
           onUpdateUser={newUserData => {

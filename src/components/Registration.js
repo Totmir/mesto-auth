@@ -16,7 +16,6 @@ export default function Registration(props) {
   return (
     <Authentication
       onSubmit={userSignUpData => {
-        //создает запрос и обрабатывает ответ с сервера
         handleSubmit(userSignUpData)
       }}
       title='Регистрация'

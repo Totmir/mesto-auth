@@ -4,16 +4,13 @@ export default function Header(props) {
   return (
     <header className='header'>
       <img src={headerLogo} alt='Логотип Места' className='header__logo' />
-      {props.loggedIn && (
-        <Link
-          to='/register'
-          onClick={() => {
-            props.setLoggining(!props.isLoggining)
-          }}
-          className='header__btn-signin'>
-          {props.isLoggining ? 'Регистрация' : 'Войти'}
+      <div className='header__verification-container'>
+        <span className='header__user-email'>{props.userEmail}</span>
+        <Link to='/signin' onClick={() => {}} className='header__btn-signin'>
+          Выйти
         </Link>
-      )}
+      </div>
+      )
     </header>
   )
 }

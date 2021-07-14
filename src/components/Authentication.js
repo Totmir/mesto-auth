@@ -5,12 +5,10 @@ export default function Authentication(props) {
   const [password, setPassword] = useState(null)
 
   const handleEmailChange = e => {
-    console.log(e.target.value)
     setEmail(e.target.value)
   }
 
   const handlePasswordChange = e => {
-    console.log(e.target.value)
     setPassword(e.target.value)
   }
 

@@ -1,17 +1,18 @@
 import Authentication from './Authentication'
+import { authApi } from '../utils/authApi'
 
 export default function Login(props) {
-  const handleChange = e => {
-    console.log('============')
-    console.log(e.target.value)
+  const submitHandler = () => {
+    console.log(123)
   }
 
   return (
-    <Authentication title='Вход' name='Login' submitBtnText='Войти'>
-      <div className='authentication__input-wrapper'>
-        <input id='avatar-upd-input' onChange={handleChange} className='authentication__input' placeholder='Email' type='text' name='email' autoComplete='on' required />
-        <input id='avatar-upd-input' onChange={handleChange} className='authentication__input' placeholder='Пароль' type='text' name='password' autoComplete='on' required />
-      </div>
-    </Authentication>
+    <Authentication
+      onSubmit={() => {
+        submitHandler()
+      }}
+      title='Вход'
+      name='Login'
+      submitBtnText='Войти'></Authentication>
   )
 }

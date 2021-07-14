@@ -1,6 +1,8 @@
 .header__btn-signin {
   margin: 0;
 
+  text-decoration: none;
+
   color: white;
   border: none;
   background: transparent;

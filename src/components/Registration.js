@@ -1,17 +1,26 @@
 import Authentication from './Authentication'
+import { authApi } from '../utils/authApi'
+import successImage from '../images/popup/success.svg'
+import failureImage from '../images/popup/failure.svg'
 
 export default function Registration(props) {
-  const handleChange = () => {
-    console.log('123============')
-    console.log(123)
+  const handleSubmit = userSignUpData => {
+    authApi.registerNewUser(userSignUpData).then(res => {
+      if (res !== 'Ошибка 400') {
+        props.onSubmit({ imgPath: successImage, text: 'Вы успешно зарегистрировались!' })
+      } else {
+        props.onSubmit({ imgPath: failureImage, text: 'Что-то пошло не так! Попробуйте ещё раз.' })
+      }
+    })
   }
-
   return (
-    <Authentication title='Регистрация' name='Registration' submitBtnText='Зарегистрироваться'>
-      <div className='authentication__input-wrapper'>
-        <input onChange={handleChange} placeholder='Email' className='authentication__input' type='text' name='emal' autoComplete='on' required />
-        <input onChange={handleChange} placeholder='Пароль' value='Пароль' className='authentication__input' type='text' name='password' autoComplete='on' required />
-      </div>
-    </Authentication>
+    <Authentication
+      onSubmit={userSignUpData => {
+        //создает запрос и обрабатывает ответ с сервера
+        handleSubmit(userSignUpData)
+      }}
+      title='Регистрация'
+      name='Registration'
+      submitBtnText='Зарегистрироваться'></Authentication>
   )
 }

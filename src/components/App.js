@@ -10,17 +10,20 @@ import EditProfilePopup from './EditProfilePopup'
 import EditAvatarPopup from './EditAvatarPopup'
 import AddPlacePopup from './AddPlacePopup'
 import Login from './Login'
-import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import Registration from './Registration'
+import InfoTooltip from './InfoTooltip'
 
-const initialPopupState = { isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false, isOverviewPopupOpen: false }
-function App() {
+const initialPopupState = { isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false, isOverviewPopupOpen: false, isInfoTooltipPopupOpen: false }
+
+function App(props) {
+  // const [initialPopupState, setInitialPopupState] = useState({ isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false, isOverviewPopupOpen: false, isInfoTooltipPopupOpen: false })
   const [popupState, setPopupState] = useState(initialPopupState)
+  const [popupRegisterData, setPopupRegisterData] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
   const [userData, setUserData] = useState(null)
   const [cardsData, setCardsData] = useState([])
-  const [signedIn, setSignInState] = useState(null)
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [isLoggedIn, setLoggedIn] = useState(false)
   const [isLoggining, setLoggining] = useState(true)
 
   useEffect(() => {
@@ -102,35 +105,46 @@ function App() {
   return (
     <CurrentUserContext.Provider value={userData}>
       <div>
-        <Header loggedIn={loggedIn} isLoggining={isLoggining} setLoggining={setLoggining} />
-        {/* {checkSigningIn()} */}
-        {loggedIn && (
-          <Main
-            updCardsData={newCardsData => {
-              setCardsData(newCardsData)
-            }}
-            handleCardLike={card => handleCardLike(card)}
-            handleCardDelete={card => handleCardDelete(card)}
-            cardsData={cardsData}
-            onEditAvatar={() => {
-              setPopupState({ ...popupState, isEditAvatarPopupOpen: true })
-            }}
-            onEditProfile={() => {
-              setPopupState({ ...popupState, isEditProfilePopupOpen: true })
-            }}
-            onAddPlace={() => {
-              setPopupState({ ...popupState, isAddPlacePopupOpen: true })
-            }}
-            onOverviewPopup={() => {
-              setPopupState({ ...popupState, isOverviewPopupOpen: true })
-            }}
-            onCardClick={handleCardClick}
-          />
-        )}
-        {!loggedIn && isLoggining && <Login />}
-        {!loggedIn && !isLoggining && <Registration />}
+        <Header isLoggedIn={isLoggedIn} isLoggining={isLoggining} setLoggining={setLoggining} />
+        <Switch>
+          <Route path='/signin'>
+            <Login />
+          </Route>
+          <Route path='/signup'>
+            <Registration
+              onSubmit={popupData => {
+                setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
+                setPopupRegisterData(popupData)
+              }}
+            />
+          </Route>
+          <Route path='*'>
+            <Main
+              updCardsData={newCardsData => {
+                setCardsData(newCardsData)
+              }}
+              handleCardLike={card => handleCardLike(card)}
+              handleCardDelete={card => handleCardDelete(card)}
+              cardsData={cardsData}
+              onEditAvatar={() => {
+                setPopupState({ ...popupState, isEditAvatarPopupOpen: true })
+              }}
+              onEditProfile={() => {
+                setPopupState({ ...popupState, isEditProfilePopupOpen: true })
+              }}
+              onAddPlace={() => {
+                setPopupState({ ...popupState, isAddPlacePopupOpen: true })
+              }}
+              onOverviewPopup={() => {
+                setPopupState({ ...popupState, isOverviewPopupOpen: true })
+              }}
+              onCardClick={handleCardClick}
+            />
+          </Route>
+        </Switch>
         {/* <PopupWithForm title='Вы уверены?' name='delete-card' /> */}
-        {loggedIn && <Footer />}
+        {isLoggedIn && <Footer />}
+        <InfoTooltip popupData={popupRegisterData} isOpen={popupState.isInfoTooltipPopupOpen} onClose={closeAllPopups} />
         <EditAvatarPopup onUpdateAvatar={avatarUrl => handleUpdateAvatar(avatarUrl)} isOpen={popupState.isEditAvatarPopupOpen} onClose={closeAllPopups} />
         <EditProfilePopup
           onUpdateUser={newUserData => {

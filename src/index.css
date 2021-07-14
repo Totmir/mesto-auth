@@ -52,6 +52,9 @@
 @import url(./blocks/popup/__save-btn/_avatar/popup__save-btn_avatar.css);
 @import url(./blocks/popup/__input/_avatar/popup__input_avatar.css);
 @import url(./blocks/popup/__input-error/_avatar/popup__input-error_avatar.css);
+@import url(./blocks/popup/__title/_text-align/popup__title_text-align-center.css);
+@import url(./blocks/popup/__result-pic/popup__result-pic.css);
+@import url(./blocks/popup/__container/_info-tooltip/popup__container_info-tooltip.css);
 /* overview */
 @import url(./blocks/overview/overview.css);
 @import url(./blocks/overview/__container/overview__container.css);

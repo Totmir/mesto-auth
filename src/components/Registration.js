@@ -3,7 +3,7 @@ import { authApi } from '../utils/authApi'
 import successImage from '../images/popup/success.svg'
 import failureImage from '../images/popup/failure.svg'
 
-export default function Registration(props) {
+export default function Register(props) {
   const handleSubmit = userSignUpData => {
     authApi.registerNewUser(userSignUpData).then(res => {
       if (res !== 'Ошибка 400') {
@@ -19,7 +19,7 @@ export default function Registration(props) {
         handleSubmit(userSignUpData)
       }}
       title='Регистрация'
-      name='Registration'
+      name='Register'
       submitBtnText='Зарегистрироваться'></Authentication>
   )
 }

@@ -11,7 +11,7 @@ import EditAvatarPopup from './EditAvatarPopup'
 import AddPlacePopup from './AddPlacePopup'
 import Login from './Login'
 import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
-import Registration from './Registration'
+import Register from './Register'
 import InfoTooltip from './InfoTooltip'
 
 const initialPopupState = { isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false, isOverviewPopupOpen: false, isInfoTooltipPopupOpen: false }
@@ -133,7 +133,7 @@ function App(props) {
             />
           </Route>
           <Route path='/signup'>
-            <Registration
+            <Register
               onSubmit={popupData => {
                 setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
                 setInfoTooltipData(popupData)

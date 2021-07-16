@@ -22,6 +22,16 @@ class AuthApi {
       body: JSON.stringify(email, password)
     }).then(response => this._checkResponce(response))
   }
+  checkToken(token) {
+    return fetch(`${this._url}/users/me`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    }).then(response => {
+      return this._checkResponce(response)
+    })
+  }
   _checkResponce = response => {
     if (response.ok) {
       return response.json()

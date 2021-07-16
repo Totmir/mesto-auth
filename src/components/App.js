@@ -13,32 +13,27 @@ import Login from './Login'
 import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
 import Register from './Register'
 import InfoTooltip from './InfoTooltip'
+import { authApi } from '../utils/authApi'
 
 const initialPopupState = { isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false, isOverviewPopupOpen: false, isInfoTooltipPopupOpen: false }
 
 function App(props) {
-  // const [initialPopupState, setInitialPopupState] = useState({ isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false, isOverviewPopupOpen: false, isInfoTooltipPopupOpen: false })
   const [popupState, setPopupState] = useState(initialPopupState)
   const [infoTooltipData, setInfoTooltipData] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
   const [userData, setUserData] = useState(null)
   const [cardsData, setCardsData] = useState([])
+  // isSignedIn можно оптимизировать. Сейчас используется только для условного отображения футера
   const [isSignedIn, setLoggedIn] = useState(false)
   const [userEmail, setUserEmail] = useState(null)
+  const [headerBtnData, setHeaderBtnData] = useState(null)
 
   let history = useHistory()
-
-  const handleTokenCheck = () => {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt')
-    } else {
-      return
-    }
-  }
+  // TODO:
+  // 1. Переделать, когда будет автоматическая верификация
 
   useEffect(() => {
-    handleTokenCheck()
-    const jwt = localStorage.getItem('jwt')
+    const jwt = localStorage.getItem('token')
     Promise.all([api.getUserData(), api.getCards()])
       .then(([userData, cardsData]) => {
         setUserData(userData)
@@ -46,6 +41,20 @@ function App(props) {
       })
       .catch(err => {
         console.log(err + ' && Ошибка при получении данных пользователя / Ошибка при получении карточек')
+      })
+    authApi
+      .checkToken(jwt)
+      .then(res => {
+        if (res.data) {
+          console.log('Верифицирован!')
+          setUserEmail(res.data.email)
+          history.push('/')
+        } else {
+          history.push('signin')
+        }
+      })
+      .catch(err => {
+        console.warn(err + ' && Ошибка при проверке токена пользователя')
       })
   }, [])
 
@@ -117,26 +126,44 @@ function App(props) {
   return (
     <CurrentUserContext.Provider value={userData}>
       <div>
-        <Header userEmail={userEmail} />
+        <Header
+          setHeaderBtnData={newHeaderBtnData => {
+            setHeaderBtnData(newHeaderBtnData)
+          }}
+          headerBtnData={headerBtnData}
+          history={history}
+          userEmail={{ email: userEmail, setUserEmail: setUserEmail }}
+        />
         <Switch>
           <Route path='/signin'>
             <Login
+              history={history}
               onSubmit={popupData => {
                 setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
                 setInfoTooltipData(popupData)
               }}
+              setHeaderBtnData={btnData => {
+                setUserEmail(btnData.email)
+                setHeaderBtnData(btnData)
+              }}
+              setUserEmail={email => {
+                setUserEmail(email)
+              }}
               setSignedIn={userEmail => {
                 setUserEmail(userEmail)
                 setLoggedIn(true)
-                history.push('/')
               }}
             />
           </Route>
           <Route path='/signup'>
             <Register
+              history={history}
               onSubmit={popupData => {
                 setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
                 setInfoTooltipData(popupData)
+              }}
+              setHeaderBtnData={() => {
+                setHeaderBtnData()
               }}
             />
           </Route>

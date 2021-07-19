@@ -14,6 +14,8 @@ import { Route, Switch, withRouter, useHistory } from 'react-router-dom'
 import Register from './Register'
 import InfoTooltip from './InfoTooltip'
 import { authApi } from '../utils/authApi'
+import successImage from '../images/popup/success.svg'
+import failureImage from '../images/popup/failure.svg'
 
 const initialPopupState = { isEditAvatarPopupOpen: false, isEditProfilePopupOpen: false, isAddPlacePopupOpen: false, isOverviewPopupOpen: false, isInfoTooltipPopupOpen: false }
 
@@ -23,14 +25,10 @@ function App(props) {
   const [selectedCard, setSelectedCard] = useState(null)
   const [userData, setUserData] = useState(null)
   const [cardsData, setCardsData] = useState([])
-  // isSignedIn можно оптимизировать. Сейчас используется только для условного отображения футера
-  const [isSignedIn, setLoggedIn] = useState(false)
   const [userEmail, setUserEmail] = useState(null)
   const [headerBtnData, setHeaderBtnData] = useState(null)
 
-  let history = useHistory()
-  // TODO:
-  // 1. Переделать, когда будет автоматическая верификация
+  const history = useHistory()
 
   useEffect(() => {
     const jwt = localStorage.getItem('token')
@@ -46,7 +44,6 @@ function App(props) {
       .checkToken(jwt)
       .then(res => {
         if (res.data) {
-          console.log('Верифицирован!')
           setUserEmail(res.data.email)
           history.push('/')
         } else {
@@ -123,6 +120,45 @@ function App(props) {
         console.log(err + ' && Ошибка при добавления нового места')
       })
   }
+  // Обработчик Submit в попапе SignIn
+  const handleSignInSubmit = (popupData, userSignInData) => {
+    authApi
+      .signInUser(userSignInData)
+      .then(res => {
+        if (res.token) {
+          history.push('/')
+          localStorage.setItem('token', res.token)
+          setUserEmail(userSignInData.email)
+        } else {
+          setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
+          setInfoTooltipData(popupData)
+        }
+      })
+      .catch(err => {
+        console.log(err + ' && Ошибка авторизации')
+      })
+  }
+  // Обработчик Submit в попапе SignUp
+  const handleSignUpSubmit = userSignUpData => {
+    const setSignUpPopupData = popupData => {
+      setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
+      setInfoTooltipData(popupData)
+    }
+
+    authApi
+      .registerNewUser(userSignUpData)
+      .then(res => {
+        if (res.data) {
+          props.history.push('/signin')
+          setSignUpPopupData({ imgPath: successImage, text: 'Вы успешно зарегистрировались!' })
+        } else {
+          setSignUpPopupData({ imgPath: failureImage, text: 'Что-то пошло не так! Попробуйте ещё раз.' })
+        }
+      })
+      .catch(err => {
+        console.log(err + ' && Ошибка при регистрации')
+      })
+  }
   return (
     <CurrentUserContext.Provider value={userData}>
       <div>
@@ -137,33 +173,15 @@ function App(props) {
         <Switch>
           <Route path='/signin'>
             <Login
-              history={history}
-              onSubmit={popupData => {
-                setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
-                setInfoTooltipData(popupData)
-              }}
-              setHeaderBtnData={btnData => {
-                setUserEmail(btnData.email)
-                setHeaderBtnData(btnData)
-              }}
-              setUserEmail={email => {
-                setUserEmail(email)
-              }}
-              setSignedIn={userEmail => {
-                setUserEmail(userEmail)
-                setLoggedIn(true)
+              onSubmit={(popupData, userData) => {
+                handleSignInSubmit(popupData, userData)
               }}
             />
           </Route>
           <Route path='/signup'>
             <Register
-              history={history}
-              onSubmit={popupData => {
-                setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
-                setInfoTooltipData(popupData)
-              }}
-              setHeaderBtnData={() => {
-                setHeaderBtnData()
+              onSubmit={userSignUpData => {
+                handleSignUpSubmit(userSignUpData)
               }}
             />
           </Route>
@@ -192,7 +210,7 @@ function App(props) {
           </Route>
         </Switch>
         {/* <PopupWithForm title='Вы уверены?' name='delete-card' /> */}
-        {isSignedIn && <Footer />}
+        {history.location.pathname == '/' && <Footer />}
         <InfoTooltip popupData={infoTooltipData} isOpen={popupState.isInfoTooltipPopupOpen} onClose={closeAllPopups} />
         <EditAvatarPopup onUpdateAvatar={avatarUrl => handleUpdateAvatar(avatarUrl)} isOpen={popupState.isEditAvatarPopupOpen} onClose={closeAllPopups} />
         <EditProfilePopup

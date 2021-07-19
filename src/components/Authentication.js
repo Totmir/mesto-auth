@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
 export default function Authentication(props) {
-  const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleEmailChange = e => {
     setEmail(e.target.value)
@@ -27,8 +27,8 @@ export default function Authentication(props) {
           action='#'
           method='post'>
           <div className='authentication__input-wrapper'>
-            <input onChange={handleEmailChange} placeholder='Email' className='authentication__input' type='text' name='emal' required />
-            <input onChange={handlePasswordChange} placeholder='Пароль' className='authentication__input' type='text' name='password' required />
+            <input onChange={handleEmailChange} value={email} placeholder='Email' className='authentication__input' type='text' name='emal' required />
+            <input onChange={handlePasswordChange} value={password} placeholder='Пароль' className='authentication__input' type='text' name='password' required />
           </div>
           <button name='submitBtn' className='authentication__submit-btn' type='submit'>
             {props.submitBtnText}

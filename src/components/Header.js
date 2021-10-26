@@ -9,12 +9,12 @@ export default function Header(props) {
         <Switch>
           <Route path='/signup'>
             <Link className='header__btn-signin' to='/signin'>
-              Вход
+              Sign In
             </Link>
           </Route>
           <Route path='/signin'>
             <Link className='header__btn-signin' to='/signup'>
-              Регистрация
+              Sign Up
             </Link>
           </Route>
           <Route path='/'>
@@ -25,7 +25,7 @@ export default function Header(props) {
                 localStorage.removeItem('token')
               }}
               to='/signin'>
-              Выйти
+              Logout
             </Link>
           </Route>
         </Switch>

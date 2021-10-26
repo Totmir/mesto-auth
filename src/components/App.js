@@ -150,9 +150,9 @@ function App(props) {
       .then(res => {
         if (res.data) {
           props.history.push('/signin')
-          setSignUpPopupData({ imgPath: successImage, text: 'Вы успешно зарегистрировались!' })
+          setSignUpPopupData({ imgPath: successImage, text: 'You have registered!' })
         } else {
-          setSignUpPopupData({ imgPath: failureImage, text: 'Что-то пошло не так! Попробуйте ещё раз.' })
+          setSignUpPopupData({ imgPath: failureImage, text: 'Something wrong' })
         }
       })
       .catch(err => {

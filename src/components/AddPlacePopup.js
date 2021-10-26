@@ -12,7 +12,7 @@ function AddPlacePopup(props) {
   }
   return (
     <PopupWithForm
-      title='Новое место'
+      title='New place'
       name='card-renderer'
       isOpen={props.isOpen}
       onSubmit={e => {
@@ -20,15 +20,15 @@ function AddPlacePopup(props) {
         props.handleAddPlaceSubmit({ name: placeName, url: placeUrl })
       }}
       onClose={props.onClose}
-      submitBtnText='Сохранить'>
+      submitBtnText='Save'>
       <div className='popup__input-wrapper'>
-        <input className='popup__input popup__input_data_name' onChange={handleNameChange} value={placeName} placeholder='Название' id='pic-name' name='name' type='text' minLength='2' maxLength='30' autoComplete='off' required />
+        <input className='popup__input popup__input_data_name' onChange={handleNameChange} value={placeName} placeholder='Name' id='pic-name' name='name' type='text' minLength='2' maxLength='30' autoComplete='off' required />
         <span className='popup__input-error' id='pic-name-error'>
           Вы пропустили это поле.
         </span>
       </div>
       <div className='popup__input-wrapper'>
-        <input className='popup__input popup__input_data_description' onChange={handleUrlChange} value={placeUrl} placeholder='Ссылка на картинку' id='url' type='url' name='url' autoComplete='on' required />
+        <input className='popup__input popup__input_data_description' onChange={handleUrlChange} value={placeUrl} placeholder='Url' id='url' type='url' name='url' autoComplete='on' required />
         <span className='popup__input-error popup__input-error_description' id='url-error'>
           Введите адрес сайта.
         </span>

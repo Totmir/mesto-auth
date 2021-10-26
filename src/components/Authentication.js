@@ -28,7 +28,7 @@ export default function Authentication(props) {
           method='post'>
           <div className='authentication__input-wrapper'>
             <input onChange={handleEmailChange} value={email} placeholder='Email' className='authentication__input' type='text' name='emal' required />
-            <input onChange={handlePasswordChange} value={password} placeholder='Пароль' className='authentication__input' type='text' name='password' required />
+            <input onChange={handlePasswordChange} value={password} placeholder='Password' className='authentication__input' type='text' name='password' required />
           </div>
           <button name='submitBtn' className='authentication__submit-btn' type='submit'>
             {props.submitBtnText}

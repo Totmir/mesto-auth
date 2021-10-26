@@ -6,7 +6,7 @@ export default function Register(props) {
       onSubmit={userSignUpData => {
         props.onSubmit(userSignUpData)
       }}
-      title='Регистрация'
+      title='Sign Up'
       name='Register'
       submitBtnText='Зарегистрироваться'></Authentication>
   )

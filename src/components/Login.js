@@ -5,10 +5,10 @@ export default function Login(props) {
   return (
     <Authentication
       onSubmit={userSignInData => {
-        props.onSubmit({ imgPath: failureImage, text: 'Что-то пошло не так! Попробуйте ещё раз.' }, userSignInData)
+        props.onSubmit({ imgPath: failureImage, text: 'Wrong login/password' }, userSignInData)
       }}
-      title='Вход'
+      title='Sign In'
       name='Login'
-      submitBtnText='Войти'></Authentication>
+      submitBtnText='Sign In'></Authentication>
   )
 }

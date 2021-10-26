@@ -19,11 +19,11 @@ function Main(props) {
               : null
           }></button>
         <div className='profile__info'>
-          <h1 className='profile__name'>{currentUser ? currentUser.name : 'Имя пользователя'}</h1>
+          <h1 className='profile__name'>{currentUser ? currentUser.name : 'Name'}</h1>
           <button onClick={props.onEditProfile} type='button' className='profile__edit-btn'>
-            <img className='profile__edit-pic' src={editBtnImage} alt='Редактировать' />
+            <img className='profile__edit-pic' src={editBtnImage} alt='Edit' />
           </button>
-          <p className='profile__description'>{currentUser ? currentUser.about : 'Описание'}</p>
+          <p className='profile__description'>{currentUser ? currentUser.about : 'Desctiption'}</p>
         </div>
         <button onClick={props.onAddPlace} type='button' className='profile__add-btn'></button>
       </section>

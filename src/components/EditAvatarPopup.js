@@ -15,9 +15,9 @@ function EditAvatarPopup(props) {
       name='avatar-updater'
       isOpen={props.isOpen}
       onClose={props.onClose}
-      submitBtnText='Сохранить'>
+      submitBtnText='Save'>
       <div className='popup__input-wrapper'>
-        <input id='avatar-upd-input' onChange={handleChange} value={url} className='popup__input popup__input_avatar popup__input_data_description' placeholder='Ссылка на картинку' type='url' name='url' autoComplete='on' required />
+        <input id='avatar-upd-input' onChange={handleChange} value={url} className='popup__input popup__input_avatar popup__input_data_description' placeholder='Url to picture' type='url' name='url' autoComplete='on' required />
         <span id='avatar-upd-input-error' className='popup__input-error popup__input-error_description popup__input-error_avatar'>
           Введите адрес картинки.
         </span>

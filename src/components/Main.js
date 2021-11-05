@@ -29,7 +29,7 @@ function Main(props) {
       </section>
       <section className='cards'>
         {props.cardsData
-          ? props.cardsData.map((card, idx) => {
+          && props.cardsData.map((card, idx) => {
               return (
                 <Card
                   onCardClick={cardData => {
@@ -46,8 +46,7 @@ function Main(props) {
                   key={card._id}
                 />
               )
-            })
-          : null}
+            })}
       </section>
     </main>
   )

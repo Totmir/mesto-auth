@@ -1,7 +1,17 @@
-import { Link, Switch, Route } from 'react-router-dom'
+import { Link, Switch, Route, BrowserRouter } from 'react-router-dom'
 import headerLogo from '../images/header/header__logo.svg'
 import React from 'react'
 export default function Header(props) {
+  // function setCookie(name, value, days) {
+  //   var d = new Date()
+  //   d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days)
+  //   document.cookie = name + '=' + value + ';path=/;expires=' + d.toGMTString()
+  // }
+
+  // function deleteCookie(name) {
+  //   setCookie(name, '', -1)
+  // }
+
   return (
     <header className='header'>
       <img src={headerLogo} alt='Логотип Места' className='header__logo' />
@@ -22,7 +32,7 @@ export default function Header(props) {
             <Link
               className='header__btn-signin'
               onClick={() => {
-                localStorage.removeItem('token')
+                // Удалить куки на сервере
               }}
               to='/signin'>
               Выйти

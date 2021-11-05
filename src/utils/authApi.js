@@ -19,6 +19,7 @@ class AuthApi {
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify(email, password)
     }).then(response => this._checkResponce(response))
   }
@@ -26,8 +27,10 @@ class AuthApi {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: {
-        authorization: `Bearer ${token}`
-      }
+        // authorization: `Bearer ${token}`
+        authorization: token
+      },
+      credentials: 'include',
     }).then(response => {
       return this._checkResponce(response)
     })
@@ -40,4 +43,4 @@ class AuthApi {
     }
   }
 }
-export const authApi = new AuthApi({ token: '5e559c15-de0a-4477-8c57-88e7261a19c8', url: 'https://auth.nomoreparties.co' })
+export const authApi = new AuthApi({ token: '5e559c15-de0a-4477-8c57-88e7261a19c8', url: 'http://localhost:3001' })

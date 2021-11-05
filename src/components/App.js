@@ -31,19 +31,17 @@ function App(props) {
   const history = useHistory()
 
   useEffect(() => {
-    const jwt = localStorage.getItem('token')
-    Promise.all([api.getUserData(), api.getCards()])
-      .then(([userData, cardsData]) => {
-        setUserData(userData)
-        setCardsData(cardsData)
-      })
-      .catch(err => {
-        console.log(err + ' && Ошибка при получении данных пользователя / Ошибка при получении карточек')
-      })
+    const getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    const jwt = getCookie('jwt')
     authApi
       .checkToken(jwt)
       .then(res => {
-        if (res.data) {
+        if (res) {
+          getCardsAndUserdata()
           setUserEmail(res.data.email)
           history.push('/')
         } else {
@@ -55,8 +53,22 @@ function App(props) {
       })
   }, [])
 
+  function getCardsAndUserdata() {
+    Promise.all([api.getUserData(), api.getCards()])
+      .then(([userData, cardsData]) => {
+        setUserData(userData)
+        console.log(cardsData);
+        if (Array.isArray(cardsData)) setCardsData(cardsData)
+      }).then(() => {
+        history.push('/')
+      })
+      .catch(err => {
+        console.log(err + ' && Ошибка при получении данных пользователя / Ошибка при получении карточек')
+      })
+  }
+
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === userData._id)
+    const isLiked = card.likes.some(i => i === userData._id)
     api
       .switchLike(card._id, isLiked)
       .then(newCard => {
@@ -113,7 +125,7 @@ function App(props) {
     api
       .addCard(newPlace)
       .then(newCardData => {
-        setCardsData([newCardData, ...cardsData])
+        setCardsData([newCardData.data, ...cardsData])
         closeAllPopups()
       })
       .catch(err => {
@@ -126,9 +138,9 @@ function App(props) {
       .signInUser(userSignInData)
       .then(res => {
         if (res.token) {
-          history.push('/')
           localStorage.setItem('token', res.token)
           setUserEmail(userSignInData.email)
+          getCardsAndUserdata()
         } else {
           setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
           setInfoTooltipData(popupData)
@@ -144,7 +156,6 @@ function App(props) {
       setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
       setInfoTooltipData(popupData)
     }
-
     authApi
       .registerNewUser(userSignUpData)
       .then(res => {

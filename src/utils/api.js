@@ -2,7 +2,12 @@
 class Api {
   constructor(data) {
     this._url = data.url
-    this._token = data.token
+    this._getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    this._token = this._getCookie('jwt')
   }
   // Получает карточки
   getCards() {
@@ -10,7 +15,8 @@ class Api {
       method: 'GET',
       headers: {
         authorization: this._token
-      }
+      },
+      credentials: 'include'
     }).then(response => {
       return this._checkResponce(response)
     })
@@ -21,7 +27,8 @@ class Api {
       method: 'GET',
       headers: {
         authorization: this._token
-      }
+      },
+      credentials: 'include'
     }).then(response => this._checkResponce(response))
   }
   // Отправляет новую карточку
@@ -35,7 +42,8 @@ class Api {
       body: JSON.stringify({
         name: card.name,
         link: card.url
-      })
+      }),
+      credentials: 'include'
     })
       .then(response => {
         return response
@@ -48,7 +56,8 @@ class Api {
       method: 'DELETE',
       headers: {
         authorization: this._token
-      }
+      },
+      credentials: 'include'
     }).then(response => this._checkResponce(response))
   }
   // Обновляет данные пользователя
@@ -62,7 +71,8 @@ class Api {
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json'
-      }
+      },
+      credentials: 'include'
     })
       .then(response => {
         return response
@@ -78,7 +88,8 @@ class Api {
         headers: {
           authorization: this._token,
           'Content-Type': 'application/json'
-        }
+        },
+        credentials: 'include'
       }).then(response => this._checkResponce(response))
     } else {
       // Ещё нет лайка? Добавит лайк
@@ -87,7 +98,8 @@ class Api {
         headers: {
           authorization: this._token,
           'Content-Type': 'application/json'
-        }
+        },
+        credentials: 'include'
       }).then(response => this._checkResponce(response))
     }
   }
@@ -101,7 +113,8 @@ class Api {
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json'
-      }
+      },
+      credentials: 'include'
     })
       .then(response => {
         return response
@@ -116,4 +129,4 @@ class Api {
     }
   }
 }
-export const api = new Api({ token: '5e559c15-de0a-4477-8c57-88e7261a19c8', url: 'https://mesto.nomoreparties.co/v1/cohort-24' })
+export const api = new Api({ url: 'http://localhost:3001' })

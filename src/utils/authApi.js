@@ -27,7 +27,6 @@ class AuthApi {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: {
-        // authorization: `Bearer ${token}`
         authorization: token
       },
       credentials: 'include',

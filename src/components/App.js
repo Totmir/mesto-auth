@@ -42,7 +42,7 @@ function App(props) {
       .then(res => {
         if (res) {
           getCardsAndUserdata()
-          setUserEmail(res.data.email)
+          setUserEmail(res.email)
           history.push('/')
         } else {
           history.push('signin')
@@ -69,8 +69,10 @@ function App(props) {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i === userData._id)
+    console.log(userData._id)
+    console.log(card.likes)
     api
-      .switchLike(card._id, isLiked)
+      .switchLike(isLiked, card._id)
       .then(newCard => {
         const newCards = cardsData.map(c => (c._id === card._id ? newCard : c))
         setCardsData(newCards)
@@ -139,8 +141,9 @@ function App(props) {
       .then(res => {
         if (res.token) {
           localStorage.setItem('token', res.token)
-          setUserEmail(userSignInData.email)
           getCardsAndUserdata()
+          setUserEmail(userSignInData.email)
+
         } else {
           setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
           setInfoTooltipData(popupData)

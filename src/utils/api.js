@@ -80,7 +80,7 @@ class Api {
       .then(response => this._checkResponce(response))
   }
   // Меняет состояние лайка
-  switchLike(cardId, isLiked) {
+  switchLike(isLiked, cardId) {
     if (isLiked) {
       // Уже лайкнут? Удаляет лайк!
       return fetch(`${this._url}/cards/likes/${cardId}`, {

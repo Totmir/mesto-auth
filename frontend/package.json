@@ -17,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && scp -r ./build/* xelarim@62.84.120.178:/home/xelarim/mesto-frontend"
+    "deploy": "npm run build && scp -r ./build/* xelarim@62.84.120.178:/home/xelarim/mesto/frontend"
   },
   "eslintConfig": {
     "extends": [

@@ -35,6 +35,7 @@ const options = {
   origin: [
     `http://localhost:${PORT}`,
     'http://localhost:3000',
+    'http://api.totfront.nomoredomains.rocks/',
     'https://github.com/totfront/totfront',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],

@@ -31,28 +31,10 @@ function App(props) {
   const history = useHistory()
 
   useEffect(() => {
-    // const getCookie = (name) => {
-    //   const value = `; ${document.cookie}`;
-    //   const parts = value.split(`; ${name}=`);
-    //   if (parts.length === 2) return parts.pop().split(';').shift();
-    // }
-    // const jwt = getCookie('jwt')
-    // authApi
-    //   .checkToken(jwt)
-    //   .then(res => {
-    //     if (res) {
-    //       getCardsAndUserdata()
-    //     } else {
-    //       history.push('signin')
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.warn(err + ' && Ошибка при проверке токена пользователя')
-    //   })
-    api
-      .getUserData()
+    authApi
+      .checkToken()
       .then(res => {
-        if (res) {
+        if (res !== 'Ошибка 401') {
           getCardsAndUserdata()
         } else {
           history.push('signin')
@@ -159,7 +141,7 @@ function App(props) {
         console.log(err + ' && Ошибка авторизации')
       })
   }
-  // SignUp btn hadnler
+  // SignUp btn handler
   const handleSignUpSubmit = userSignUpData => {
     const setSignUpPopupData = popupData => {
       setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })

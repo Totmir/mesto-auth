@@ -2,8 +2,6 @@ class AuthApi {
   constructor(data) {
     this._url = data.url
   }
-  // Регистрирует нового пользователя
-  // Получает параметрами объект из строк {почта, пароль}
   registerNewUser(email, password) {
     return fetch(`${this._url}/signup`, {
       method: 'POST',
@@ -32,12 +30,9 @@ class AuthApi {
       credentials: 'include',
     }).then(response => this._checkResponce(response))
   }
-  checkToken(token) {
+  checkToken() {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
-      headers: {
-        authorization: token,
-      },
       credentials: 'include',
     }).then(response => {
       return this._checkResponce(response)
@@ -51,5 +46,6 @@ class AuthApi {
     }
   }
 }
-// export const authApi = new AuthApi({ url: 'https://api.totfront.nomoredomains.rocks' })
-export const authApi = new AuthApi({ url: 'http://localhost:3001' })
+export const authApi = new AuthApi({ url: 'https://api.totfront.nomoredomains.rocks' })
+// FOR LOCAL TESTING:
+// export const authApi = new AuthApi({ url: 'http://localhost:3001' })

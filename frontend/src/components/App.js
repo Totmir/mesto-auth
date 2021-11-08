@@ -31,19 +31,29 @@ function App(props) {
   const history = useHistory()
 
   useEffect(() => {
-    const getCookie = (name) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-    }
-    const jwt = getCookie('jwt')
-    authApi
-      .checkToken(jwt)
+    // const getCookie = (name) => {
+    //   const value = `; ${document.cookie}`;
+    //   const parts = value.split(`; ${name}=`);
+    //   if (parts.length === 2) return parts.pop().split(';').shift();
+    // }
+    // const jwt = getCookie('jwt')
+    // authApi
+    //   .checkToken(jwt)
+    //   .then(res => {
+    //     if (res) {
+    //       getCardsAndUserdata()
+    //     } else {
+    //       history.push('signin')
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.warn(err + ' && Ошибка при проверке токена пользователя')
+    //   })
+    api
+      .getUserData()
       .then(res => {
         if (res) {
           getCardsAndUserdata()
-          setUserEmail(res.email)
-          history.push('/')
         } else {
           history.push('signin')
         }
@@ -57,7 +67,6 @@ function App(props) {
     Promise.all([api.getUserData(), api.getCards()])
       .then(([userData, cardsData]) => {
         setUserData(userData)
-        console.log(cardsData);
         if (Array.isArray(cardsData)) setCardsData(cardsData)
       }).then(() => {
         history.push('/')
@@ -69,8 +78,6 @@ function App(props) {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i === userData._id)
-    console.log(userData._id)
-    console.log(card.likes)
     api
       .switchLike(isLiked, card._id)
       .then(newCard => {
@@ -134,16 +141,15 @@ function App(props) {
         console.log(err + ' && Ошибка при добавления нового места')
       })
   }
-  // Обработчик Submit в попапе SignIn
+  // SignIn btn handler
   const handleSignInSubmit = (popupData, userSignInData) => {
     authApi
       .signInUser(userSignInData)
       .then(res => {
-        if (res.token) {
-          localStorage.setItem('token', res.token)
+        if (res.verifiedToken) {
           getCardsAndUserdata()
           setUserEmail(userSignInData.email)
-
+          setUserData(userSignInData)
         } else {
           setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })
           setInfoTooltipData(popupData)
@@ -153,7 +159,7 @@ function App(props) {
         console.log(err + ' && Ошибка авторизации')
       })
   }
-  // Обработчик Submit в попапе SignUp
+  // SignUp btn hadnler
   const handleSignUpSubmit = userSignUpData => {
     const setSignUpPopupData = popupData => {
       setPopupState({ ...popupState, isInfoTooltipPopupOpen: true })

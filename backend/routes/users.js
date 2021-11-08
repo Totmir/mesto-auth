@@ -6,6 +6,7 @@ const {
   setCurrentUser,
   setUserAvatar,
   getCurrentUser,
+  logout
 } = require("../controllers/users");
 
 router.patch("/me", celebrate({
@@ -26,5 +27,6 @@ router.get("/:id", celebrate({
     id: Joi.string().alphanum().hex().length(24),
   }),
 }), getUser);
+router.delete("/me", logout);
 
 module.exports = router;

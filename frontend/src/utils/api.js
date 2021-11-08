@@ -2,12 +2,6 @@
 class Api {
   constructor(data) {
     this._url = data.url
-    this._getCookie = (name) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-    }
-    this._token = this._getCookie('jwt')
   }
   // Получает карточки
   getCards() {
@@ -129,4 +123,5 @@ class Api {
     }
   }
 }
+// export const api = new Api({ url: 'http://api.totfront.nomoredomains.rocks' })
 export const api = new Api({ url: 'http://localhost:3001' })

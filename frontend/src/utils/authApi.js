@@ -17,17 +17,26 @@ class AuthApi {
     return fetch(`${this._url}/signin`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       credentials: 'include',
       body: JSON.stringify(email, password)
+    }).then(response => this._checkResponce(response))
+  }
+  signOutUser() {
+    return fetch(`${this._url}/users/me`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
     }).then(response => this._checkResponce(response))
   }
   checkToken(token) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: {
-        authorization: token
+        authorization: token,
       },
       credentials: 'include',
     }).then(response => {
@@ -42,4 +51,5 @@ class AuthApi {
     }
   }
 }
-export const authApi = new AuthApi({ token: '5e559c15-de0a-4477-8c57-88e7261a19c8', url: 'http://localhost:3001' })
+// export const authApi = new AuthApi({ url: 'https://api.totfront.nomoredomains.rocks' })
+export const authApi = new AuthApi({ url: 'http://localhost:3001' })

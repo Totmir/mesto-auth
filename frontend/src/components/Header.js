@@ -1,4 +1,5 @@
 import { Link, Switch, Route, BrowserRouter } from 'react-router-dom'
+import { authApi } from '../utils/authApi'
 import headerLogo from '../images/header/header__logo.svg'
 import React from 'react'
 export default function Header(props) {
@@ -22,7 +23,7 @@ export default function Header(props) {
             <Link
               className='header__btn-signin'
               onClick={() => {
-                // Удалить куки на сервере
+                authApi.signOutUser()
               }}
               to='/signin'>
               Выйти

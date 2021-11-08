@@ -41,12 +41,12 @@ const options = {
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
   optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Origin', 'Authorization'],
   credentials: true,
 };
 
-// app.use('*', cors(options));
-app.use(cors(options))
+app.use('*', cors(options));
+// app.use(cors(options))
 
 app.use(requestLogger);
 

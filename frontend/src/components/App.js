@@ -34,7 +34,8 @@ function App(props) {
     authApi
       .checkToken()
       .then(res => {
-        if (res !== 'Ошибка 401') {
+
+        if (res !== 'Ошибка 401' && res) {
           getCardsAndUserdata()
         } else {
           history.push('signin')

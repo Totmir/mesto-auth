@@ -35,8 +35,8 @@ const options = {
   origin: [
     `http://localhost:${PORT}`,
     'http://localhost:3000',
-    'https://totfront.nomoredomains.rocks/',
-    'http://totfront.nomoredomains.rocks/',
+    'https://totfront.nomoredomains.rocks',
+    'http://totfront.nomoredomains.rocks',
     'https://github.com/totfront/totfront',
     'http://github.com/totfront/totfront',
   ],
@@ -48,7 +48,6 @@ const options = {
 };
 
 app.use('*', cors(options));
-// app.use(cors(options))
 
 app.use(requestLogger);
 

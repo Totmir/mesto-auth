@@ -126,15 +126,15 @@ module.exports.login = (req, res, next) => {
         })
         res.cookie('_id', user._id, {
           httpOnly: true,
-          sameSite: true
+          sameSite: 'none'
         })
         return (
           res
             // Send JWT in cookie to predict XSS-atack
             .cookie('jwt', token, {
               httpOnly: true,
-              sameSite: true
-              // secure: true,
+              sameSite: 'none',
+              secure: true,
             })
             .status(200)
             .send({user, verifiedToken: true})

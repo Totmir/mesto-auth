@@ -123,6 +123,6 @@ class Api {
     }
   }
 }
-// export const api = new Api({ url: 'http://api.totfront.nomoredomains.rocks' })
+export const api = new Api({ url: 'https://api.totfront.nomoredomains.rocks' })
 // FOR LOCAL TESTING:
 // export const api = new Api({ url: 'http://localhost:3001' })

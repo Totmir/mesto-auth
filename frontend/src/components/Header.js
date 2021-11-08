@@ -1,4 +1,4 @@
-import { Link, Switch, Route, BrowserRouter } from 'react-router-dom'
+import { Link, Switch, Route } from 'react-router-dom'
 import { authApi } from '../utils/authApi'
 import headerLogo from '../images/header/header__logo.svg'
 import React from 'react'

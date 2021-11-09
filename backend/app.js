@@ -51,12 +51,24 @@ app.use(cors(options));
 
 app.use(requestLogger);
 
+// Crash-test
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+}); 
 app.use("/signin", celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 }), require("./routes/signin"));
+// Crash-test
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+}); 
 app.use("/signup", celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),

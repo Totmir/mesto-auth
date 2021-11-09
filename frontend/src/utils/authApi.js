@@ -46,6 +46,6 @@ class AuthApi {
     }
   }
 }
-export const authApi = new AuthApi({ url: 'https://api.totfront.nomoredomains.rocks' })
+// export const authApi = new AuthApi({ url: 'https://api.totfront.nomoredomains.rocks' })
 // FOR LOCAL TESTING:
-// export const authApi = new AuthApi({ url: 'http://localhost:3001' })
+export const authApi = new AuthApi({ url: 'http://localhost:3001' })

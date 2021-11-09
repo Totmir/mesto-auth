@@ -121,6 +121,14 @@ module.exports.login = (req, res, next) => {
         if (!isValid) {
           return next(new UnauthorizedError('Неправильный пароль или логин'))
         }
+
+        let secretKey = process.env.JWT_SECRET
+
+        if (process.env.JWT_SECRET) {
+          secretKey = process.env.JWT_SECRET
+        } else {
+          secretKey = 'super-secret-jwt'
+        }
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
           expiresIn: '7d'
         })
@@ -132,7 +140,7 @@ module.exports.login = (req, res, next) => {
         res.cookie('jwt', token, {
           httpOnly: true,
           sameSite: false,
-          secure: true,
+          // secure: true,
         })
         return (
           res
@@ -152,8 +160,8 @@ module.exports.logout = (req, res, next) => {
   // Send JWT in cookie to predict XSS-atack
   .cookie('jwt', '', {
     httpOnly: true,
-    sameSite: true
-    // secure: true,
+    sameSite: true,
+    secure: true,
   })
   .status(200)
   .send({message: 'Токен удалён'})

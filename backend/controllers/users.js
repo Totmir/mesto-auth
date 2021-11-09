@@ -129,7 +129,7 @@ module.exports.login = (req, res, next) => {
         } else {
           secretKey = 'super-secret-jwt'
         }
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+        const token = jwt.sign({ _id: user._id }, secretKey, {
           expiresIn: '7d'
         })
         res.cookie('_id', user._id, {
@@ -169,7 +169,6 @@ module.exports.logout = (req, res, next) => {
 
 module.exports.getCurrentUser = (req, res, next) => {
   const id = req.cookies._id
-  console.log(req.cookies._id)
   User.find({ _id: id })
     .orFail(new Error('noUser'))
     .then(users => res.send(users[0]))

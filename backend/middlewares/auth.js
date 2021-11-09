@@ -4,7 +4,11 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 
 dotenv.config();
 
-const { JWT_SECRET } = process.env;
+let { JWT_SECRET } = process.env;
+
+if (!JWT_SECRET) JWT_SECRET = 'super-secret-jwt'
+
+console.log(JWT_SECRET)
 
 const auth = (req, res, next) => {
   if (!req.cookies.jwt) {

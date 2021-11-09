@@ -26,3 +26,4 @@ yarn-error.log*bk
 .env.production.local
 
 
+backend/.env

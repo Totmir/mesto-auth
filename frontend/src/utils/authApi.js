@@ -17,6 +17,7 @@ class AuthApi {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify(email, password)
     }).then(response => this._checkResponce(response))
   }

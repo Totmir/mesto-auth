@@ -1,14 +1,14 @@
 const express = require("express");
-const { celebrate, errors, Joi } = require('celebrate');
+const { celebrate, errors, Joi } = require("celebrate");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
-const cors = require('cors');
+const cors = require("cors");
 const errorsHandler = require("./middlewares/errorsHandler");
-const NotFoundError = require('./errors/NotFoundError');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
+const NotFoundError = require("./errors/NotFoundError");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const auth = require("./middlewares/auth");
 
@@ -34,16 +34,16 @@ app.use(helmet());
 const options = {
   origin: [
     `http://localhost:${PORT}`,
-    'http://localhost:3000',
-    'https://totfront.nomoredomains.rocks',
-    'http://totfront.nomoredomains.rocks',
-    'https://github.com/totfront/totfront',
-    'http://github.com/totfront/totfront',
+    "http://localhost:3000",
+    "https://totfront.nomoredomains.rocks",
+    "http://totfront.nomoredomains.rocks",
+    "https://github.com/totfront/totfront",
+    "http://github.com/totfront/totfront",
   ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   preflightContinue: false,
   optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'Origin', 'Authorization'],
+  allowedHeaders: ["Content-Type", "Origin", "Authorization"],
   credentials: true,
 };
 
@@ -52,11 +52,11 @@ app.use(cors(options));
 app.use(requestLogger);
 
 // Crash-test
-app.get('/crash-test', () => {
+app.get("/crash-test", () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error("Сервер сейчас упадёт");
   }, 0);
-}); 
+});
 app.use("/signin", celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -64,11 +64,11 @@ app.use("/signin", celebrate({
   }),
 }), require("./routes/signin"));
 // Crash-test
-app.get('/crash-test', () => {
+app.get("/crash-test", () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error("Сервер сейчас упадёт");
   }, 0);
-}); 
+});
 app.use("/signup", celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -84,7 +84,7 @@ app.use(auth);
 app.use("/users", require("./routes/users"));
 app.use("/cards", require("./routes/cards"));
 
-app.use("*", (req, res, next) => next(new NotFoundError('Запрашиваемый ресурс не найден')));
+app.use("*", (req, res, next) => next(new NotFoundError("Запрашиваемый ресурс не найден")));
 
 app.use(errorLogger);
 app.use(errors());

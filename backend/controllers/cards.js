@@ -12,9 +12,7 @@ module.exports.getCards = (req, res, next) => {
       }
       return res.send({ data: "Нет карточек" });
     })
-    .catch((err) =>
-      next(new ServerError(`${err.message} - Ошибка по умолчанию`))
-    );
+    .catch((err) => next(new ServerError(`${err.message} - Ошибка по умолчанию`)));
 };
 
 module.exports.createCard = (req, res, next) => {
@@ -29,8 +27,8 @@ module.exports.createCard = (req, res, next) => {
       if (err.name === "ValidationError") {
         return next(
           new InvalidError(
-            "Переданы некорректные данные в методы создания карточки"
-          )
+            "Переданы некорректные данные в методы создания карточки",
+          ),
         );
       }
       return next(new ServerError(`${err.message} - Ошибка по умолчанию`));
@@ -47,9 +45,7 @@ module.exports.deleteCard = (req, res, next) => {
       }
       return Card.deleteOne({ _id: req.params.cardId })
         .then((foundCard) => res.send({ data: foundCard, status: "deleted" }))
-        .catch((err) =>
-          next(new ServerError(`${err.message} - Ошибка по умолчанию`))
-        );
+        .catch((err) => next(new ServerError(`${err.message} - Ошибка по умолчанию`)));
     })
     .catch((err) => {
       if (err.name === "CastError") {

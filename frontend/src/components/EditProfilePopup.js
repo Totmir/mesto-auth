@@ -1,6 +1,6 @@
 import React from 'react'
-import PopupWithForm from './PopupWithForm'
-import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import PopupWithForm from './components/PopupWithForm'
+import { CurrentUserContext } from './contexts/CurrentUserContext'
 function EditProfilePopup(props) {
   const submitBtnText = 'Сохранить'
   const [name, setName] = React.useState('')
